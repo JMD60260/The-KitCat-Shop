@@ -1,4 +1,4 @@
-<%= render "shops/header" %>
+<%= render "layouts/header" %>
 
 
 <table>
@@ -29,8 +29,6 @@
           <%= f.hidden_field :product_id, :value => product.id %>
           <%= f.number_field :quantity, :value => 1, :min =>  1%>
           <%= f.submit "Add to Card "%>
-
-
           <% end %>
         </td>
        
@@ -38,6 +36,8 @@
     <% end %>
   </tbody>
 </table>
+<br>
+
 
 <div class="container main-section">
 <div class="row">
@@ -50,14 +50,15 @@
             <tr>
               <th>Title</th>
               <th>Price</th>
-              <th style="width:10%;">Quantity</th>
               <th>Subtotal</th>
+              <th style="width:10%;">Quantity</th>
               <th>Action</th>
             </tr>
         </thead>
         <tbody>
+        <% @products.each do |product| %>
             <tr>
-             <% @products.each do |product| %>
+             
               <td>
              
                 <div class="row">
@@ -69,21 +70,39 @@
                   </div>
                   
                 </div>
-              </td>
-              <td> <%= product.price %> € </td>
-              <td data-th="Quantity">
-             <input type="number" class="form-control text-center" value="1">
-           </td>
-          
+                </td>
+                <td><%= product.price %> €</td>
+              
+               
+                <td>12,000</td>
+                <td class="actions" data-th="" style="width:10%;">
+                <%= form_for @order_item, remote: true  do |f|%>
+                  <%= f.hidden_field :product_id, :value => product.id %>
+                  <%= f.number_field :quantity, :value => 1, :min =>  1%>
+               						
+                </td>
+                
+              </td> 
+              <td>
+             
+              <%= f.submit "Add to Card "%>
+              <% end %>
+            </td>
+           </tr>
+           <% end %>
         <tfoot>
-        <tr>
+        <tr >
           <td><a href="#" class="btn btn-warning text-white"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
           <td colspan="2" class="hidden-xs"></td>
-          <td class="hidden-xs text-center" style="width:10%;"><strong>Total : 47,000</strong></td>
+          <td  class="hidden-xs text-center" style="width:10%;">
+            <div id="card">
+              <%= render 'cards/card'%>
+            </div>
+          </td>
           <td><a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
         </tr>
       </tfoot>
-      <% end %>
+      
     </table>
   </div>
 </div>
@@ -91,7 +110,3 @@
 
 
 
-<br>
-<div id="card">
-  <%= render 'cards/card'%>
-</div>

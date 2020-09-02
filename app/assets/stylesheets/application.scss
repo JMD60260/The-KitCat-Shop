@@ -35,6 +35,10 @@ $nav-link-font-family-sans-serif: "Pacifico";
 @import "bootstrap";
 @import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
 
+body {
+  background-color: grey;
+}
+
 .footer {
   position: absolute;
   bottom: 0;

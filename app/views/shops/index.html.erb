@@ -1,0 +1,97 @@
+<%= render "shops/header" %>
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Titre</th>
+      <th>Prix</th>
+      <th>Description</th>
+      <th>Photo</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.title %></td>
+        <td><%= product.price %>€</td>
+        <td><%= product.description %></td>
+
+        <td><%= link_to 'Voir', shop_path(product) %></td>
+
+
+
+        <td>
+
+        
+          <%= form_for @order_item, remote: true  do |f|%>
+          <%= f.hidden_field :product_id, :value => product.id %>
+          <%= f.number_field :quantity, :value => 1, :min =>  1%>
+          <%= f.submit "Add to Card "%>
+
+
+          <% end %>
+        </td>
+       
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="container main-section">
+<div class="row">
+  <div class="col-lg-12 pb-2">
+    <h4>Your Shoping Cart</h4>
+  </div>
+  <div class="col-lg-12 pl-3 pt-3">
+    <table class="table table-hover border bg-white">
+        <thead>
+            <tr>
+              <th>Title</th>
+              <th>Price</th>
+              <th style="width:10%;">Quantity</th>
+              <th>Subtotal</th>
+              <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+             <% @products.each do |product| %>
+              <td>
+             
+                <div class="row">
+                  <div class="col-lg-10">
+                  <h3 class="nomargin"><%= product.title %></h3>
+                </div>
+                  <div class="col-lg-2 Product-img">
+                  <%= image_tag(product.image, style:'width:100%') if product.image.attached?  %>
+                  </div>
+                  
+                </div>
+              </td>
+              <td> <%= product.price %> € </td>
+              <td data-th="Quantity">
+             <input type="number" class="form-control text-center" value="1">
+           </td>
+          
+        <tfoot>
+        <tr>
+          <td><a href="#" class="btn btn-warning text-white"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+          <td colspan="2" class="hidden-xs"></td>
+          <td class="hidden-xs text-center" style="width:10%;"><strong>Total : 47,000</strong></td>
+          <td><a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
+        </tr>
+      </tfoot>
+      <% end %>
+    </table>
+  </div>
+</div>
+</div>
+
+
+
+<br>
+<div id="card">
+  <%= render 'cards/card'%>
+</div>
